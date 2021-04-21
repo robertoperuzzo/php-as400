@@ -310,24 +310,17 @@ RUN set -xe; \
     chown root:www-data /etc/cron.d/www-data; \
     chmod 660 /etc/cron.d/www-data; \
     \
-    # Microsoft SQL Server Prerequisites
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-       && curl https://packages.microsoft.com/config/debian/9/prod.list \
-           > /etc/apt/sources.list.d/mssql-release.list; \
-    \
+    # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
+      unixodbc \
       unixodbc-dev \
-      msodbcsql17 \
-      libxml2-dev \
-      mssql-tools; \
     \
-    docker-php-ext-install mbstring; \
-    pecl install sqlsrv pdo_sqlsrv; \
-    docker-php-ext-enable sqlsrv pdo_sqlsrv; \
-    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc; \
-    /bin/bash -c "source ~/.bashrc"; \
-    \
+    up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
+    wget -qO- "${up_url}" \
+    dpkg -i ibm-iaccess-1.1.0.14-1.0.amd64.deb \
+    apt –fix-broken install \
+    odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration \
     #
     composer clear-cache; \
     docker-php-source delete; \
