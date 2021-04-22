@@ -38,7 +38,8 @@ RUN set -xe; \
     sed -i '/^wodby/s/!/*/' /etc/shadow; \
     \
     # Debian packages
-    apt-get update && sudo apt-get dist-upgrade; \
+    apt-get update; \
+    apt-get dist-upgrade; \
     apt-get install -y --no-install-recommends \
         apt-transport-https \
         autoconf \
