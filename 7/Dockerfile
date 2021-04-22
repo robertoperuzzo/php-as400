@@ -322,9 +322,9 @@ RUN set -xe; \
     sudo dpkg -i "${temp_deb}"; \
     rm -f "${temp_deb}"; \
     \
-    apt –fix-broken install; \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
-    #
+    docker-php-ext-enable pdo_odbc; \
+    # Clean
     composer clear-cache; \
     docker-php-source delete; \
     apt-get clean; \
