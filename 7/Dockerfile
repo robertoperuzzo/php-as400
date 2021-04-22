@@ -39,7 +39,7 @@ RUN set -xe; \
     \
     # Debian packages
     apt-get update; \
-    apt-get dist-upgrade; \
+    apt-get dist-upgrade -y; \
     apt-get install -y --no-install-recommends \
         apt-transport-https \
         autoconf \
