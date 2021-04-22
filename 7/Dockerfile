@@ -39,7 +39,7 @@ RUN set -xe; \
     \
     # Debian packages
     apt-get update; \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
         apt-transport-https \
         autoconf \
         bzip2 \
