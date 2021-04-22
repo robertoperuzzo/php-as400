@@ -323,7 +323,7 @@ RUN set -xe; \
     rm -f "${temp_deb}"; \
     \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
-    docker-php-ext-enable pdo_odbc; \
+    docker-php-ext-enable pdo; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
