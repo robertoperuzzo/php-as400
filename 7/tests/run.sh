@@ -6,7 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-git_url=https://github.com/robertoperuzzo/php-sqlsrv.git
+git_url=https://github.com/robertoperuzzo/php-as400.git
 
 wait_for_cron() {
     executed=0
