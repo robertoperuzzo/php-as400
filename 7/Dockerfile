@@ -39,8 +39,9 @@ RUN set -xe; \
     \
     # Debian packages
     apt-get update; \
+    apt-get dist-upgrade -y; \
     apt-get install -y --no-install-recommends \
-        apt-transport-https \
+        #apt-transport-https \
         autoconf \
         bzip2 \
         cmake \
@@ -314,14 +315,16 @@ RUN set -xe; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
       unixodbc \
-      unixodbc-dev \
+      unixodbc-dev; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
-    wget -qO- "${up_url}" \
-    dpkg -i ibm-iaccess-1.1.0.14-1.0.amd64.deb \
-    apt –fix-broken install \
-    odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration \
-    #
+    temp_deb="$(mktemp)" && \
+    wget -O "${temp_deb}" "${up_url}" && \
+    sudo dpkg -i "${temp_deb}"; \
+    rm -f "${temp_deb}"; \
+    \
+    odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
+    # Clean
     composer clear-cache; \
     docker-php-source delete; \
     apt-get clean; \
