@@ -145,12 +145,20 @@ RUN set -xe; \
         zip; \
     \
     # GD
-    docker-php-ext-configure gd \
-        --with-gd \
-        --with-webp-dir \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/; \
+        # GD
+    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
+        docker-php-ext-configure gd \
+            --with-webp \
+            --with-freetype \
+            --with-jpeg; \
+    else \
+        docker-php-ext-configure gd \
+            --with-gd \
+            --with-webp-dir \
+            --with-freetype-dir=/usr/include/ \
+            --with-png-dir=/usr/include/ \
+            --with-jpeg-dir=/usr/include/; \
+    fi; \
       NPROC=$(getconf _NPROCESSORS_ONLN); \
       docker-php-ext-install "-j${NPROC}" gd; \
     \
@@ -324,9 +332,9 @@ RUN set -xe; \
     rm -f "${temp_deb}"; \
     \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
-    docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
-    docker-php-ext-install pdo_odbc; \
-    docker-php-ext-enable pdo_odbc; \
+    docker-php-ext-configure odbc --with-pdo-odbc=unixODBC,/usr; \
+    docker-php-ext-install odbc; \
+    docker-php-ext-enable odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
