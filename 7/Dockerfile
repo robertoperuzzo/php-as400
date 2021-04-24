@@ -338,9 +338,8 @@ RUN set -xe; \
     rm -f "${temp_deb}"; \
     \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
-    docker-php-ext-configure odbc --with-pdo-odbc=unixODBC,/usr; \
-    docker-php-ext-install php-odbc; \
-    docker-php-ext-enable php-odbc; \
+    docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
+    docker-php-ext-install pdo_odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
