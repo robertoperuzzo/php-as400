@@ -72,6 +72,7 @@ RUN set -xe; \
         libmcrypt4 \
         libpam-runtime \
         libpng16-16 \
+        libtool \
         libxml2 \
         libyaml-0-2 \
         libzip4 \
