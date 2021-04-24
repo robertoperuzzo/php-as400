@@ -209,7 +209,7 @@ RUN set -xe; \
         oauth-2.0.7 \
         rdkafka-3.1.0 \
         uuid-1.0.4 \
-        xdebug-2.7.1 \
+        xdebug-3.0.4 \
         yaml-2.0.4; \
     \
     docker-php-ext-enable \
