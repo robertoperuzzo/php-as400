@@ -39,6 +39,7 @@ RUN set -xe; \
     \
     # Debian packages
     apt-get update; \
+    apt-get dist-upgrade -y; \
     apt-get install -y --no-install-recommends \
         apt-transport-https \
         autoconf \
@@ -59,18 +60,19 @@ RUN set -xe; \
         libc6 \
         libc-bin \
         libc-client2007e \
-        libevent-2.0-5 \
+        libevent-2.1-6 \
         libfcgi \
         libfcgi-bin \
         libfreetype6 \
         libgmp10 \
-        libicu57 \
+        libicu63 \
         libldap-2.4-2 \
         libltdl7 \
         libmemcached11 \
         libmcrypt4 \
         libpam-runtime \
         libpng16-16 \
+        libtool \
         libxml2 \
         libyaml-0-2 \
         libzip4 \
@@ -144,12 +146,20 @@ RUN set -xe; \
         zip; \
     \
     # GD
-    docker-php-ext-configure gd \
-        --with-gd \
-        --with-webp-dir \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/; \
+        # GD
+    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
+        docker-php-ext-configure gd \
+            --with-webp \
+            --with-freetype \
+            --with-jpeg; \
+    else \
+        docker-php-ext-configure gd \
+            --with-gd \
+            --with-webp-dir \
+            --with-freetype-dir=/usr/include/ \
+            --with-png-dir=/usr/include/ \
+            --with-jpeg-dir=/usr/include/; \
+    fi; \
       NPROC=$(getconf _NPROCESSORS_ONLN); \
       docker-php-ext-install "-j${NPROC}" gd; \
     \
@@ -160,9 +170,15 @@ RUN set -xe; \
         --with-kerberos \
         --with-imap-ssl; \
     docker-php-ext-install "-j${NPROC}" imap; \
-    # mcrypt moved to pecl in PHP 7.2
+    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
+    # mcrypt moved to pecl in PHP 7.4
+    pecl install mcrypt-1.0.4; \
+    docker-php-ext-enable mcrypt; \
+    else \
+    # mcrypt moved to pecl in PHP 7.2 or 7.3
     pecl install mcrypt-1.0.2; \
     docker-php-ext-enable mcrypt; \
+    fi; \
     \
     # NewRelic extension and agent.
     echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list; \
@@ -182,7 +198,7 @@ RUN set -xe; \
     pecl install \
         amqp-1.9.4 \
         apcu-5.1.17 \
-        ast-1.0.0 \
+        ast-1.0.11 \
         ds-1.2.6 \
         event-2.4.4 \
         grpc-1.17.0 \
@@ -190,11 +206,10 @@ RUN set -xe; \
         imagick-3.4.3 \
         memcached-3.1.3 \
         mongodb-1.5.3 \
-        oauth-2.0.3 \
+        oauth-2.0.7 \
         rdkafka-3.1.0 \
-        #redis-4.2.0 \
         uuid-1.0.4 \
-        xdebug-2.7.1 \
+        xdebug-3.0.4 \
         yaml-2.0.4; \
     \
     docker-php-ext-enable \
@@ -310,25 +325,23 @@ RUN set -xe; \
     chown root:www-data /etc/cron.d/www-data; \
     chmod 660 /etc/cron.d/www-data; \
     \
-    # Microsoft SQL Server Prerequisites
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-       && curl https://packages.microsoft.com/config/debian/9/prod.list \
-           > /etc/apt/sources.list.d/mssql-release.list; \
-    \
+    # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-      unixodbc-dev \
-      msodbcsql17 \
-      libxml2-dev \
-      mssql-tools; \
+      odbcinst \
+      unixodbc \
+      unixodbc-dev; \
     \
-    docker-php-ext-install mbstring; \
-    pecl install sqlsrv pdo_sqlsrv; \
-    docker-php-ext-enable sqlsrv pdo_sqlsrv; \
-    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc; \
-    /bin/bash -c "source ~/.bashrc"; \
+    up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
+    temp_deb="$(mktemp)" && \
+    wget -O "${temp_deb}" "${up_url}" && \
+    sudo dpkg -i "${temp_deb}"; \
+    rm -f "${temp_deb}"; \
     \
-    #
+    odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
+    docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
+    docker-php-ext-install pdo_odbc; \
+    # Clean
     composer clear-cache; \
     docker-php-source delete; \
     apt-get clean; \
