@@ -41,7 +41,7 @@ RUN set -xe; \
     apt-get update; \
     apt-get dist-upgrade -y; \
     apt-get install -y --no-install-recommends \
-        apt-transport-https=1.4.11 \
+        apt-transport-https \
         autoconf \
         bzip2 \
         cmake \
@@ -60,12 +60,12 @@ RUN set -xe; \
         libc6 \
         libc-bin \
         libc-client2007e \
-        libevent-2.0-5 \
+        libevent-2.1-6 \
         libfcgi \
         libfcgi-bin \
         libfreetype6 \
         libgmp10 \
-        libicu57 \
+        libicu63 \
         libldap-2.4-2 \
         libltdl7 \
         libmemcached11 \
@@ -169,9 +169,15 @@ RUN set -xe; \
         --with-kerberos \
         --with-imap-ssl; \
     docker-php-ext-install "-j${NPROC}" imap; \
-    # mcrypt moved to pecl in PHP 7.2
+    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
+    # mcrypt moved to pecl in PHP 7.4
+    pecl install mcrypt-1.0.4; \
+    docker-php-ext-enable mcrypt; \
+    else \
+    # mcrypt moved to pecl in PHP 7.2 or 7.3
     pecl install mcrypt-1.0.2; \
     docker-php-ext-enable mcrypt; \
+    fi; \
     \
     # NewRelic extension and agent.
     echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list; \
@@ -321,7 +327,7 @@ RUN set -xe; \
     # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-      php-odbc \
+      odbcinst \
       unixodbc \
       unixodbc-dev; \
     \
@@ -333,8 +339,8 @@ RUN set -xe; \
     \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
     docker-php-ext-configure odbc --with-pdo-odbc=unixODBC,/usr; \
-    docker-php-ext-install odbc; \
-    docker-php-ext-enable odbc; \
+    docker-php-ext-install php-odbc; \
+    docker-php-ext-enable php-odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \

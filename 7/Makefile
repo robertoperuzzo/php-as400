@@ -1,11 +1,11 @@
 -include env_make
 
-PHP_VER ?= 7.3.15
+PHP_VER ?= 7.4.16
 PHP_VER_MINOR ?= $(shell echo "${PHP_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
 REPO = robertoperuzzo/php-as400
 NAME = php-as400-$(PHP_VER_MINOR)
-FROM_TAG = $(PHP_VER)-fpm-stretch
+FROM_TAG = $(PHP_VER)-fpm-buster
 
 WODBY_USER_ID ?= 1000
 WODBY_GROUP_ID ?= 1000
