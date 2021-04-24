@@ -84,7 +84,6 @@ RUN set -xe; \
         openssh-client \
         openssl \
         patch \
-        php-ast \
         pkg-config \
         rsync \
         sudo \
@@ -199,7 +198,7 @@ RUN set -xe; \
     pecl install \
         amqp-1.9.4 \
         apcu-5.1.17 \
-        # ast-1.0.0 \
+        ast-1.0.11 \
         ds-1.2.6 \
         event-2.4.4 \
         grpc-1.17.0 \
