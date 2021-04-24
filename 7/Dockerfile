@@ -193,7 +193,6 @@ RUN set -xe; \
         mongodb-1.5.3 \
         oauth-2.0.3 \
         rdkafka-3.1.0 \
-        #redis-4.2.0 \
         uuid-1.0.4 \
         xdebug-2.7.1 \
         yaml-2.0.4; \
@@ -314,6 +313,7 @@ RUN set -xe; \
     # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
+      php-odbc \
       unixodbc \
       unixodbc-dev; \
     \
@@ -324,6 +324,9 @@ RUN set -xe; \
     rm -f "${temp_deb}"; \
     \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
+    docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
+    docker-php-ext-install pdo_odbc; \
+    docker-php-ext-enable pdo_odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
