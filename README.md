@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/robertoperuzzo/php-as400.svg?branch=master)](https://travis-ci.org/robertoperuzzo/php-as400)
 [![Docker Pulls](https://img.shields.io/docker/pulls/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
 [![Docker Stars](https://img.shields.io/docker/stars/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
-[![Docker Layers](https://images.microbadger.com/badges/image/robertoperuzzo/php-as400.svg)](https://microbadger.com/images/robertoperuzzo/php-as400)
 
 ## Table of Contents
 
