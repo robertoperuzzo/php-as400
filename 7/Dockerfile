@@ -328,10 +328,10 @@ RUN set -xe; \
     # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-      odbcinst \
-      unixodbc \
-      unixodbc-dev \
-      php-odbc; \
+        libodbc1 \
+        odbcinst \
+        unixodbc \
+        unixodbc-dev; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
