@@ -330,7 +330,8 @@ RUN set -xe; \
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
       odbcinst \
       unixodbc \
-      unixodbc-dev; \
+      unixodbc-dev \
+      php-odbc; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
@@ -341,6 +342,7 @@ RUN set -xe; \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
     docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
     docker-php-ext-install pdo_odbc; \
+    docker-php-ext-enable pdo_odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
