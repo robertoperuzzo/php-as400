@@ -328,7 +328,6 @@ RUN set -xe; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
-        php-xml \
         unixodbc \
         unixodbc-dev; \
     \
