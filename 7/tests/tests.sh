@@ -37,6 +37,6 @@ walter -v | grep -q 'Walter version'
 echo "OK"
 
 # PHP-ODBC
-# echo -n "Checking ODBC... "
-# php -r "echo function_exists('odbc_connect') ? 'OK' : 'KO';" | grep -q "OK"
-# echo "OK"
+echo -n "Checking ODBC... "
+php -r "echo function_exists('odbc_connect') ? 'OK' : 'KO';" | grep -q "OK"
+echo "OK"

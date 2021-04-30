@@ -146,7 +146,6 @@ RUN set -xe; \
         zip; \
     \
     # GD
-        # GD
     if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
         docker-php-ext-configure gd \
             --with-webp \
@@ -329,9 +328,15 @@ RUN set -xe; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
-        odbcinst \
+        php-xml \
         unixodbc \
         unixodbc-dev; \
+    \
+    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
+        ACCEPT_EULA=Y apt-get install -y --no-install-recommends php7.4-odbc; \
+    else \
+        ACCEPT_EULA=Y apt-get install -y --no-install-recommends php7.3-odbc; \
+    fi; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
