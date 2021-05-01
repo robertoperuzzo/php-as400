@@ -329,8 +329,7 @@ RUN set -xe; \
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
         unixodbc \
-        unixodbc-dev \
-        php-odbc; \
+        unixodbc-dev; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
