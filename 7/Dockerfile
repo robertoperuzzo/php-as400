@@ -329,13 +329,8 @@ RUN set -xe; \
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
         unixodbc \
-        unixodbc-dev; \
-    \
-    if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
-        ACCEPT_EULA=Y apt-get install -y --no-install-recommends php7.4-odbc; \
-    else \
-        ACCEPT_EULA=Y apt-get install -y --no-install-recommends php7.3-odbc; \
-    fi; \
+        unixodbc-dev \
+        php-odbc; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
