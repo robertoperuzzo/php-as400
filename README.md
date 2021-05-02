@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/robertoperuzzo/php-as400.svg?branch=master)](https://travis-ci.org/robertoperuzzo/php-as400)
 [![Docker Pulls](https://img.shields.io/docker/pulls/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
 [![Docker Stars](https://img.shields.io/docker/stars/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
-[![Docker Layers](https://images.microbadger.com/badges/image/robertoperuzzo/php-as400.svg)](https://microbadger.com/images/robertoperuzzo/php-as400)
 
 ## Table of Contents
 
@@ -206,7 +205,7 @@ You can disable extension by listing them in `$PHP_EXTENSIONS_DISABLE` separated
 | [amqp]            | 1.9.4      | 1.9.4      | 1.9.4      |
 | apc               | -          | -          | -          |
 | [apcu]            | 5.1.18     | 5.1.18     | 5.1.18     |
-| [ast]             | 1.0.5      | 1.0.5      | 1.0.5      |
+| [ast]             | 1.0.11     | 1.0.11     | 1.0.11     |
 | [blackfire]       | latest     | latest     | latest     |
 | bcmath            |            |            |            |
 | bz2               |            |            |            |
@@ -235,14 +234,14 @@ You can disable extension by listing them in `$PHP_EXTENSIONS_DISABLE` separated
 | ldap              |            |            |            |
 | libxml            |            |            |            |
 | mbstring          |            |            |            |
-| [mcrypt]          | 1.0.3      | 1.0.3      | 1.0.3      |
+| [mcrypt]          | 1.0.4      | 1.0.3      | 1.0.3      |
 | [memcached]       | 3.1.4      | 3.1.4      | 3.1.4      |
 | [mongodb]         | 1.6.0      | 1.6.0      | 1.6.0      |
 | mysql             | -          | -          | -          |
 | mysqli            |            |            |            |
 | mysqlnd           |            |            |            |
 | [newrelic]        | latest     | latest     | latest     |
-| [OAuth]           | 2.0.4      | 2.0.4      | 2.0.4      |
+| [OAuth]           | 2.0.7      | 2.0.7      | 2.0.7      |
 | openssl           |            |            |            |
 | pcntl             |            |            |            |
 | pcre              |            |            |            |
@@ -270,7 +269,7 @@ You can disable extension by listing them in `$PHP_EXTENSIONS_DISABLE` separated
 | tokenizer         |            |            |            |
 | [uploadprogress]  | [latest]   | [latest]   | [latest]   |
 | [uuid]            | 1.0.4      | 1.0.4      | 1.0.4      |
-| [xdebug]          | 2.9.2      | 2.9.2      | 2.9.2      |
+| [xdebug]          | 3.0.4      | 3.0.4      | 3.0.4      |
 | xml               |            |            |            |
 | xmlreader         |            |            |            |
 | xmlrpc            |            |            |            |
@@ -302,7 +301,7 @@ All essential linux libraries are freezed and updates will be reflected in [chan
 
 ## Changelog
 
-Changes per stability tag reflected in git tags description under [releases](https://github.com/wodby/python/releases). 
+Changes per stability tag reflected in git tags description under [releases](https://github.com/robertoperuzzo/php-as400/releases). 
 
 ## Crond
 
@@ -335,21 +334,9 @@ See https://github.com/wodby/php/issues/22 for more details.
 
 * `files_chown` – in case you manually uploaded files under `wodby` user to files volume and want to change the ownership of those files to `www-data` run `sudo files_chown [FILEPATH]` script (FILEPATH must be under `/mnt/files`), it will recursively change ownership to `www-data:www-data`
 
-## Complete PHP-based stacks
-
-* [wodby/docker4php](https://github.com/wodby/docker4php)
-* [wodby/docker4drupal](https://github.com/wodby/docker4drupal)
-* [wodby/docker4wordpress](https://github.com/wodby/docker4wordpress)
-
 ## Images based on `wodby/php`
 
-* [wodby/drupal-php](https://github.com/wodby/drupal-php)
-* [wodby/wordpress-php](https://github.com/wodby/wordpress-php)
-* [wodby/adminer](https://github.com/wodby/adminer)
-* [wodby/matomo](https://github.com/wodby/matomo)
-* [wodby/cachet](https://github.com/wodby/cachet)
-* [wodby/webgrind](https://github.com/wodby/webgrind)
-* [wodby/xhprof](https://github.com/wodby/xhprof)
+* [docker-library/php](https://github.com/docker-library/php)
 
 ## Orchestration Actions
 
@@ -372,13 +359,13 @@ default params values:
     branch "" Branch, tag or hash commit
 ```
 
-[_(7/Dockerfile)_]: https://github.com/wodby/php/tree/master/7/Dockerfile
+[_(7/Dockerfile)_]: https://github.com/robertoperuzzo/php-as400/tree/master/7/Dockerfile
 
-[7.x xdebug]: https://github.com/wodby/php/tree/master/7/templates/docker-php-ext-xdebug.ini.tmpl
-[7.x newrelic]: https://github.com/wodby/php/tree/master/7/templates/docker-php-ext-newrelic.ini.tmpl
-[7.4 session]: https://github.com/wodby/php/tree/master/7/templates/docker-php-7.4.ini.tmpl
-[7.3 session]: https://github.com/wodby/php/tree/master/7/templates/docker-php-7.3.ini.tmpl
-[7.2 session]: https://github.com/wodby/php/tree/master/7/templates/docker-php-7.2.ini.tmpl
+[7.x xdebug]: https://github.com/robertoperuzzo/php-as400/tree/master/7/templates/docker-php-ext-xdebug.ini.tmpl
+[7.x newrelic]: https://github.com/robertoperuzzo/php-as400/tree/master/7/templates/docker-php-ext-newrelic.ini.tmpl
+[7.4 session]: https://github.com/robertoperuzzo/php-as400/tree/master/7/templates/docker-php-7.4.ini.tmpl
+[7.3 session]: https://github.com/robertoperuzzo/php-as400/tree/master/7/templates/docker-php-7.3.ini.tmpl
+[7.2 session]: https://github.com/robertoperuzzo/php-as400/tree/master/7/templates/docker-php-7.2.ini.tmpl
 
 [`PHP_ALLOW_URL_FOPEN`]: http://php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen
 [`PHP_ALWAYS_POPULATE_RAW_POST_DATA`]: http://php.net/always-populate-raw-post-data

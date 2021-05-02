@@ -35,3 +35,7 @@ echo "OK"
 echo -n "Checking walter... "
 walter -v | grep -q 'Walter version'
 echo "OK"
+
+echo -n "Checking ODBC... "
+isql --version | grep -q 'unixODBC'
+echo "OK"

@@ -146,7 +146,6 @@ RUN set -xe; \
         zip; \
     \
     # GD
-        # GD
     if [[ "${PHP_VERSION:0:3}" == "7.4" ]]; then \
         docker-php-ext-configure gd \
             --with-webp \
@@ -176,7 +175,7 @@ RUN set -xe; \
     docker-php-ext-enable mcrypt; \
     else \
     # mcrypt moved to pecl in PHP 7.2 or 7.3
-    pecl install mcrypt-1.0.2; \
+    pecl install mcrypt-1.0.3; \
     docker-php-ext-enable mcrypt; \
     fi; \
     \
@@ -199,15 +198,15 @@ RUN set -xe; \
         amqp-1.9.4 \
         apcu-5.1.17 \
         ast-1.0.11 \
-        ds-1.2.6 \
-        event-2.4.4 \
-        grpc-1.17.0 \
-        igbinary-3.0.0 \
-        imagick-3.4.3 \
-        memcached-3.1.3 \
-        mongodb-1.5.3 \
+        ds-1.2.9 \
+        event-2.5.3 \
+        grpc-1.23.1 \
+        igbinary-3.0.1 \
+        imagick-3.4.4 \
+        memcached-3.1.4 \
+        mongodb-1.6.0 \
         oauth-2.0.7 \
-        rdkafka-3.1.0 \
+        rdkafka-3.1.2 \
         uuid-1.0.4 \
         xdebug-3.0.4 \
         yaml-2.0.4; \
@@ -248,7 +247,7 @@ RUN set -xe; \
     docker-php-ext-install uploadprogress; \
     \
     # Tideways xhprof.
-    xhprof_ext_ver="5.0-beta2"; \
+    xhprof_ext_ver="5.0-beta3"; \
     mkdir -p /usr/src/php/ext/tideways_xhprof; \
     xhprof_url="https://github.com/tideways/php-xhprof-extension/archive/v${xhprof_ext_ver}.tar.gz"; \
     wget -qO- "${xhprof_url}" | tar xz --strip-components=1 -C /usr/src/php/ext/tideways_xhprof; \
@@ -328,9 +327,9 @@ RUN set -xe; \
     # IBM i Access ODBC driver.
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-      odbcinst \
-      unixodbc \
-      unixodbc-dev; \
+        libodbc1 \
+        unixodbc \
+        unixodbc-dev; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
     temp_deb="$(mktemp)" && \
@@ -341,6 +340,7 @@ RUN set -xe; \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
     docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
     docker-php-ext-install pdo_odbc; \
+    docker-php-ext-enable pdo_odbc; \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
