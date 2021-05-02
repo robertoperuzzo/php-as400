@@ -340,7 +340,7 @@ RUN set -xe; \
     odbcinst -i -d -f /opt/ibm/iaccess/unixodbcregistration; \
     docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
     docker-php-ext-install odbc pdo_odbc; \
-    docker-php-ext-enable odbc pdo_odbc; \
+    \
     # Clean
     composer clear-cache; \
     docker-php-source delete; \
