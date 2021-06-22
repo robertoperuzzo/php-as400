@@ -9,8 +9,7 @@ ARG PECL_HTTP_PROXY
 ARG WODBY_USER_ID=1000
 ARG WODBY_GROUP_ID=1000
 
-ENV PHP_DEV="${PHP_DEV}" \
-    PHP_DEBUG="${PHP_DEBUG}"
+ENV PHP_DEV="${PHP_DEV}"
     # \
     # LD_PRELOAD="/usr/lib/preloadable_libiconv.so php"
 
