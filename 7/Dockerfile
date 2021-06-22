@@ -1,9 +1,10 @@
-ARG FROM_TAG
+ARG PHP_VER
 
-FROM php:${FROM_TAG}
+FROM php:${PHP_VER}
 
 ARG PHP_DEV
-ARG PHP_DEBUG
+
+ARG PECL_HTTP_PROXY
 
 ARG WODBY_USER_ID=1000
 ARG WODBY_GROUP_ID=1000
@@ -24,7 +25,8 @@ ENV PATH="${PATH}:/home/wodby/.composer/vendor/bin:${APP_ROOT}/vendor/bin:${APP_
     GIT_USER_EMAIL="wodby@robertoperuzzo.it" \
     GIT_USER_NAME="wodby"
 
-SHELL ["/bin/bash", "-c"]
+ARG TARGETPLATFORM
+
 RUN set -xe; \
     # Delete existing user/group if uid/gid occupied.
     existing_group=$(getent group "${WODBY_GROUP_ID}" | cut -d: -f1); \
