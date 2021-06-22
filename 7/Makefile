@@ -1,19 +1,25 @@
 -include env_make
 
-PHP_VER ?= 7.4.16
+PHP_VER ?= 7.4.20
 PHP_VER_MINOR ?= $(shell echo "${PHP_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
-REPO = robertoperuzzo/php-as400
-NAME = php-as400-$(PHP_VER_MINOR)
-FROM_TAG = $(PHP_VER)-fpm-buster
+REPO = wodby/php
+NAME = php-$(PHP_VER_MINOR)
 
-WODBY_USER_ID ?= 1000
-WODBY_GROUP_ID ?= 1000
+PECL_HTTP_PROXY ?= ""
+
+PLATFORM ?= linux/amd64,linux/arm64/v8
+
+ifeq ($(WODBY_USER_ID),)
+    WODBY_USER_ID := 1000
+endif
+
+ifeq ($(WODBY_GROUP_ID),)
+    WODBY_GROUP_ID := 1000
+endif
 
 ifeq ($(TAG),)
-    ifneq ($(PHP_DEBUG),)
-        TAG ?= $(PHP_VER_MINOR)-debug
-    else ifneq ($(PHP_DEV),)
+    ifneq ($(PHP_DEV),)
     	TAG ?= $(PHP_VER_MINOR)-dev
     else
         TAG ?= $(PHP_VER_MINOR)
@@ -24,29 +30,55 @@ ifneq ($(PHP_DEV),)
     NAME := $(NAME)-dev
 endif
 
-ifneq ($(PHP_DEBUG),)
-    NAME := $(NAME)-debug
-    FROM_TAG := $(FROM_TAG)-debug
-    PHP_DEV := 1
-endif
-
 ifneq ($(STABILITY_TAG),)
     ifneq ($(TAG),latest)
         override TAG := $(TAG)-$(STABILITY_TAG)
     endif
 endif
 
-.PHONY: build test push shell run start stop logs clean release
+.PHONY: build buildx-build buildx-push buildx-build-amd64 test push shell run start stop logs clean release
 
 default: build
 
 build:
 	docker build -t $(REPO):$(TAG) \
-		--build-arg FROM_TAG=$(FROM_TAG) \
+		--build-arg PHP_VER=$(PHP_VER) \
 		--build-arg PHP_DEV=$(PHP_DEV) \
-		--build-arg PHP_DEBUG=$(PHP_DEBUG) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
+		--build-arg PECL_HTTP_PROXY=$(PECL_HTTP_PROXY) \
+		./
+
+# --load doesn't work with multiple platforms https://github.com/docker/buildx/issues/59
+# we need to save cache to run tests first.
+buildx-build-amd64:
+	docker buildx build --platform linux/amd64 -t $(REPO):$(TAG) \
+		--build-arg PHP_VER=$(PHP_VER) \
+		--build-arg PHP_DEV=$(PHP_DEV) \
+		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
+		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
+		--build-arg PECL_HTTP_PROXY=$(PECL_HTTP_PROXY) \
+		--cache-from "type=local,src=/tmp/.buildx-cache" \
+		--cache-to "type=local,dest=/tmp/.buildx-cache" \
+		--load \
+		./
+
+buildx-build:
+	docker buildx build --platform $(PLATFORM) -t $(REPO):$(TAG) \
+		--build-arg PHP_VER=$(PHP_VER) \
+		--build-arg PHP_DEV=$(PHP_DEV) \
+		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
+		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
+		--build-arg PECL_HTTP_PROXY=$(PECL_HTTP_PROXY) \
+		./
+
+buildx-push:
+	docker buildx build --platform $(PLATFORM) --push -t $(REPO):$(TAG) \
+		--build-arg PHP_VER=$(PHP_VER) \
+		--build-arg PHP_DEV=$(PHP_DEV) \
+		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
+		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
+		--build-arg PECL_HTTP_PROXY=$(PECL_HTTP_PROXY) \
 		./
 
 test:
