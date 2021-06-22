@@ -3,8 +3,8 @@
 PHP_VER ?= 7.4.20
 PHP_VER_MINOR ?= $(shell echo "${PHP_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
-REPO = wodby/php
-NAME = php-$(PHP_VER_MINOR)
+REPO = robertoperuzzo/php-as400
+NAME = php-as400-$(PHP_VER_MINOR)
 
 PECL_HTTP_PROXY ?= ""
 

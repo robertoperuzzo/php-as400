@@ -1,6 +1,6 @@
 ARG PHP_VER
 
-FROM php:${PHP_VER}
+FROM php:${PHP_VER}-fpm-buster
 
 ARG PHP_DEV
 
