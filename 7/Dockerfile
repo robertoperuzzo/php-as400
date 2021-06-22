@@ -340,8 +340,8 @@ RUN set -xe; \
         unixodbc-dev; \
     \
     up_url="https://roper-packages.s3.eu-central-1.amazonaws.com/ibm-iaccess-1.1.0.14-1.0.amd64.deb"; \
-    temp_deb="$(mktemp)" && \
-    wget -O "${temp_deb}" "${up_url}" && \
+    temp_deb="$(mktemp)"; \
+    wget -O "${temp_deb}" "${up_url}"; \
     sudo dpkg -i "${temp_deb}"; \
     rm -f "${temp_deb}"; \
     \
