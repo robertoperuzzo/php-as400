@@ -24,7 +24,7 @@ ENV PATH="${PATH}:/home/wodby/.composer/vendor/bin:${APP_ROOT}/vendor/bin:${APP_
     GIT_USER_EMAIL="wodby@robertoperuzzo.it" \
     GIT_USER_NAME="wodby"
 
-# Use bash shell to avoid 
+# Use bash shell to avoid '/bin/sh: 1: Bad substitution'.
 SHELL ["/bin/bash", "-c"]
 RUN set -xe; \
     # Delete existing user/group if uid/gid occupied.
