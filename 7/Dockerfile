@@ -24,8 +24,8 @@ ENV PATH="${PATH}:/home/wodby/.composer/vendor/bin:${APP_ROOT}/vendor/bin:${APP_
     GIT_USER_EMAIL="wodby@robertoperuzzo.it" \
     GIT_USER_NAME="wodby"
 
-ARG TARGETPLATFORM
-
+# Use bash shell to avoid '/bin/sh: 1: Bad substitution'.
+SHELL ["/bin/bash", "-c"]
 RUN set -xe; \
     # Delete existing user/group if uid/gid occupied.
     existing_group=$(getent group "${WODBY_GROUP_ID}" | cut -d: -f1); \
@@ -326,12 +326,12 @@ RUN set -xe; \
     chmod 660 /etc/cron.d/www-data; \
     \
     # IBM i Access ODBC driver.
-    { \
+    ( \
         echo '# https://github.com/docker-library/php/issues/103#issuecomment-271413933'; \
         echo 'AC_DEFUN([PHP_ALWAYS_SHARED],[])dnl'; \
         echo; \
         cat /usr/src/php/ext/odbc/config.m4; \
-    } > temp.m4; \
+    ) > temp.m4; \
     mv temp.m4 /usr/src/php/ext/odbc/config.m4; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
