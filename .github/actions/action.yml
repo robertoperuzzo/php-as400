@@ -34,8 +34,6 @@ runs:
       WODBY_GROUP_ID: ${{ inputs.group_id }}
       PLATFORM: ${{ inputs.platform }}
       TAGS: ${{ inputs.tags }}
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     run: |
       set -e
       # make buildx-build-amd64
