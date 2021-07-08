@@ -36,10 +36,10 @@ runs:
       TAGS: ${{ inputs.tags }}
     run: |
       set -e
-      # make buildx-build-amd64
-      make build
+      make buildx-build-amd64
+      #make build
       make test
-      # make buildx-build
+      make buildx-build
       . $GITHUB_ACTION_PATH/release.sh
     shell: bash
     working-directory: ${{ inputs.workdir }}
