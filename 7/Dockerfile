@@ -181,11 +181,10 @@ RUN set -xe; \
     fi; \
     \
     # NewRelic extension and agent.
-    echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list; \
-    wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add - ; \
+    echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | sudo tee /etc/apt/sources.list.d/newrelic.list \
+    wget -O- https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - ; \
     apt-get update; \
-    apt-get install -y --no-install-recommends \
-        newrelic-php5; \
+    apt-get install -y --no-install-recommends newrelic-php5; \
     sudo newrelic-install install; \
     rm /usr/local/etc/php/conf.d/newrelic.ini; \
     \
