@@ -181,12 +181,16 @@ RUN set -xe; \
     fi; \
     \
     # NewRelic extension and agent.
-    echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | sudo tee /etc/apt/sources.list.d/newrelic.list; \
-    wget -O- https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - ; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends newrelic-php5; \
-    sudo newrelic-install install; \
+    newrelic_url="http://download.newrelic.com/php_agent/release/"; \
+    wget -r -nd --no-parent -P /tmp/newrelic -Alinux-musl.tar.gz "${newrelic_url}" >/dev/null 2>&1; \
+    tar -xzf /tmp/newrelic/newrelic-php*.tar.gz --strip=1 -C /tmp/newrelic; \
+    export NR_INSTALL_SILENT=true; \
+    export NR_INSTALL_USE_CP_NOT_LN=true; \
+    bash /tmp/newrelic/newrelic-install install; \
     rm /usr/local/etc/php/conf.d/newrelic.ini; \
+    mkdir -p /var/log/newrelic/; \
+    chown -R www-data:www-data /var/log/newrelic/; \
+    chmod -R 775 /var/log/newrelic/; \
     \
     # Sendmail
     apt-get update; \
