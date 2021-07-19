@@ -45,6 +45,7 @@ RUN set -xe; \
         apt-transport-https \
         autoconf \
         bzip2 \
+        ca-certificates \
         cmake \
         cron \
         fcgiwrap \
@@ -181,7 +182,7 @@ RUN set -xe; \
     fi; \
     \
     # NewRelic extension and agent.
-    wget -a -O - https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - ; \
+    wget -q -O - https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - ; \
     echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | sudo tee /etc/apt/sources.list.d/newrelic.list; \
     sudo apt-get update; \
     DEBIAN_FRONTEND=noninteractive sudo apt-get -y install newrelic-php5; \
