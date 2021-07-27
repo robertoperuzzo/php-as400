@@ -246,7 +246,7 @@ RUN set -xe; \
     docker-php-ext-install uploadprogress; \
     \
     # Tideways xhprof.
-    xhprof_ext_ver="5.0-beta3"; \
+    xhprof_ext_ver="5.0.4"; \
     mkdir -p /usr/src/php/ext/tideways_xhprof; \
     xhprof_url="https://github.com/tideways/php-xhprof-extension/archive/v${xhprof_ext_ver}.tar.gz"; \
     wget -qO- "${xhprof_url}" | tar xz --strip-components=1 -C /usr/src/php/ext/tideways_xhprof; \
