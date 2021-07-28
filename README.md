@@ -1,6 +1,6 @@
 # PHP Docker Container Images
 
-[![Build Status](https://travis-ci.org/robertoperuzzo/php-as400.svg?branch=master)](https://travis-ci.org/robertoperuzzo/php-as400)
+[![Build Status](https://github.com/robertoperuzzo/php-as400/workflows/Build%20docker%20image/badge.svg)](https://github.com/robertoperuzzo/php-as400/actions)
 [![Docker Pulls](https://img.shields.io/docker/pulls/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
 [![Docker Stars](https://img.shields.io/docker/stars/robertoperuzzo/php-as400.svg)](https://hub.docker.com/r/robertoperuzzo/php-as400)
 
