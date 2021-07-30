@@ -334,6 +334,8 @@ RUN set -xe; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
+        odbcinst \
+        odbcinst1debian2 \
         unixodbc \
         unixodbc-dev; \
     \
