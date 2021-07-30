@@ -324,13 +324,13 @@ RUN set -xe; \
     chmod 660 /etc/cron.d/www-data; \
     \
     # IBM i Access ODBC driver.
-#    ( \
-#        echo '# https://github.com/docker-library/php/issues/103#issuecomment-271413933'; \
-#        echo 'AC_DEFUN([PHP_ALWAYS_SHARED],[])dnl'; \
-#        echo; \
-#        cat /usr/src/php/ext/odbc/config.m4; \
-#    ) > temp.m4; \
-#    mv temp.m4 /usr/src/php/ext/odbc/config.m4; \
+    ( \
+        echo '# https://github.com/docker-library/php/issues/103#issuecomment-271413933'; \
+        echo 'AC_DEFUN([PHP_ALWAYS_SHARED],[])dnl'; \
+        echo; \
+        cat /usr/src/php/ext/odbc/config.m4; \
+    ) > temp.m4; \
+    mv temp.m4 /usr/src/php/ext/odbc/config.m4; \
     apt-get update;\
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         libodbc1 \
